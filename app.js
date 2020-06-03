@@ -1,21 +1,23 @@
-const http = new HttpRequest;
+// Init API
+const heroApi = new Suerphero();
 
-let heroId = Math.floor(Math.random() * 731 + 1)
+const searchInput = document.getElementById('heroSearch');
 
-http.get(`https://www.superheroapi.com/api.php/3416344518392928/${heroId}`)
-    .then(data => buildCard(data))
-    .catch(err => console.log(err))
+searchInput.addEventListener('keyup', (e) => {
+    const heroText = e.target.value;
 
-function buildCard(hero) {
-    const li = document.createElement('li');
-    li.innerHTML = `
-       <li><img src="${hero.image.url}" alt="${hero.name}"></li>
-       <li>Name: ${hero.name}</li>
-       <li>Connections: ${hero.connections.relatives}</li>
-       <li>Intelligence: ${hero.powerstats.intelligence}</li>
-    `;
+    if(searchInput != '') {
+        // HTTP call to the api
+        heroApi.getHero(heroText)
+            .then(data => {
+                if(data.data.response === 'error') {
+                    console.log('Please Enter a valid name');
+                } else {
+                    // Show hero/ Hero's
+                }
+            });
+    } else {
+        // Clear Profile
 
-    console.log(hero)
-
-    document.querySelector('.hero-list').appendChild(li);
-}
+    }
+}); 
